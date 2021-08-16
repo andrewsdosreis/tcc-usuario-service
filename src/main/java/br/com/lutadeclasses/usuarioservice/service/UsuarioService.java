@@ -25,13 +25,12 @@ import br.com.lutadeclasses.usuarioservice.repository.UsuarioRepository;
 @Service
 public class UsuarioService {
 
-    @Autowired
     private PasswordEncoder encoder;
-
     private ObjectMapper mapper;
     private UsuarioRepository repository;
 
-    public UsuarioService(ObjectMapper mapper, UsuarioRepository repository) {
+    public UsuarioService(PasswordEncoder encoder, ObjectMapper mapper, UsuarioRepository repository) {
+        this.encoder = encoder;
         this.mapper = mapper;
         this.repository = repository;
     }
@@ -89,4 +88,5 @@ public class UsuarioService {
         JsonNode patched = patch.apply(mapper.convertValue(usuario, JsonNode.class));
         return mapper.treeToValue(patched, Usuario.class);
     }
+
 }

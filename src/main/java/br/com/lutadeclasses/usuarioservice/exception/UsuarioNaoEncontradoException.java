@@ -7,4 +7,5 @@ public class UsuarioNaoEncontradoException extends RuntimeException {
     public UsuarioNaoEncontradoException(Integer id) {
         super(String.format("Usuario com o Id '%s' nao foi encontrado", id));
     }
+    
 }

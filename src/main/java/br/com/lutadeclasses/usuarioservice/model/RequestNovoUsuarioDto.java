@@ -1,9 +1,8 @@
 package br.com.lutadeclasses.usuarioservice.model;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,13 +27,11 @@ public class RequestNovoUsuarioDto {
     private String sobrenome;
     
     @NotBlank(message = "O campo email não pode ser vazio")
+    @Email(message = "Email inválido")
     private String email;
     
     @NotBlank(message = "O campo senha não pode ser vazio")
+    @Size(min = 5, max = 30, message = "Senha deve conter no mínimo 5 e no máximo 30 caracteres")
     private String senha;
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-    }
 }
