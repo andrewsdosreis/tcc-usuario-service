@@ -10,4 +10,5 @@ import br.com.lutadeclasses.usuarioservice.entity.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findFirstByEmail(String email);
+    Optional<Usuario> findFirstByUsername(String username);
 }

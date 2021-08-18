@@ -9,13 +9,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.lutadeclasses.usuarioservice.entity.Usuario;
 import br.com.lutadeclasses.usuarioservice.exception.LoginEmailOuSenhaIncorretoException;
 import br.com.lutadeclasses.usuarioservice.exception.LoginUsuarioNaoEncontradoComEmailException;
+import br.com.lutadeclasses.usuarioservice.exception.UsuarioComEmailJaExisteException;
+import br.com.lutadeclasses.usuarioservice.exception.UsuarioComUsernameJaExisteException;
 import br.com.lutadeclasses.usuarioservice.exception.UsuarioNaoEncontradoException;
 import br.com.lutadeclasses.usuarioservice.model.RequestNovoUsuarioDto;
 import br.com.lutadeclasses.usuarioservice.model.ResponseUsuarioDto;
@@ -49,6 +50,7 @@ public class UsuarioService {
     }
 
     public ResponseUsuarioDto criarUsuario(RequestNovoUsuarioDto novoUsuarioDto) {
+        validarDadosAntesDeInserirNovoUsuario(novoUsuarioDto);
         var usuario = mapper.convertValue(novoUsuarioDto, Usuario.class);
         usuario.setSenha(encoder.encode(novoUsuarioDto.getSenha()));
         repository.save(usuario);
@@ -89,4 +91,14 @@ public class UsuarioService {
         return mapper.treeToValue(patched, Usuario.class);
     }
 
+    private void validarDadosAntesDeInserirNovoUsuario(RequestNovoUsuarioDto novoUsuarioDto) {
+        if (repository.findFirstByUsername(novoUsuarioDto.getUsername()).isPresent()) {
+            throw new UsuarioComUsernameJaExisteException(novoUsuarioDto.getUsername());
+        }
+
+        if (repository.findFirstByEmail(novoUsuarioDto.getEmail()).isPresent()) {
+            throw new UsuarioComEmailJaExisteException(novoUsuarioDto.getEmail());
+        }
+    }
+    
 }
