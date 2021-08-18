@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.lutadeclasses.usuarioservice.exception.LoginException;
+import br.com.lutadeclasses.usuarioservice.exception.UsuarioComEmailJaExisteException;
+import br.com.lutadeclasses.usuarioservice.exception.UsuarioComUsernameJaExisteException;
 import br.com.lutadeclasses.usuarioservice.exception.UsuarioNaoEncontradoException;
 
 @ControllerAdvice
@@ -33,13 +35,41 @@ public class GlobalExceptionHandler {
         var erro = ErrorHandler.builder()
                                .timestamp(System.currentTimeMillis())
                                .status(HttpStatus.NOT_FOUND.value())
-                               .error("NotFound Exception")
+                               .error("Not Found")
                                .message(e.getMessage())
                                .path(request.getRequestURI())
                                .method(request.getMethod())
                                .build();
         logger.error(MGS_ERRO, erro);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }
+
+    @ExceptionHandler(UsuarioComEmailJaExisteException.class)
+    public ResponseEntity<ErrorHandler> objectNotFound(UsuarioComEmailJaExisteException e, HttpServletRequest request) {
+        var erro = ErrorHandler.builder()
+                               .timestamp(System.currentTimeMillis())
+                               .status(HttpStatus.EXPECTATION_FAILED.value())
+                               .error("Expectation Failed")
+                               .message(e.getMessage())
+                               .path(request.getRequestURI())
+                               .method(request.getMethod())
+                               .build();
+        logger.error(MGS_ERRO, erro);
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(erro);
+    }
+
+    @ExceptionHandler(UsuarioComUsernameJaExisteException.class)
+    public ResponseEntity<ErrorHandler> objectNotFound(UsuarioComUsernameJaExisteException e, HttpServletRequest request) {
+        var erro = ErrorHandler.builder()
+                               .timestamp(System.currentTimeMillis())
+                               .status(HttpStatus.EXPECTATION_FAILED.value())
+                               .error("Expectation Failed")
+                               .message(e.getMessage())
+                               .path(request.getRequestURI())
+                               .method(request.getMethod())
+                               .build();
+        logger.error(MGS_ERRO, erro);
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(erro);
     }
 
     @ExceptionHandler(JsonProcessingException.class)
@@ -61,7 +91,7 @@ public class GlobalExceptionHandler {
         var erro = ErrorHandler.builder()
                                .timestamp(System.currentTimeMillis())
                                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                               .error("JsonPatchException Exception")
+                               .error("JsonPatch Exception")
                                .message(e.getMessage())
                                .path(request.getRequestURI())
                                .method(request.getMethod())
@@ -98,7 +128,7 @@ public class GlobalExceptionHandler {
         var erro = ErrorHandler.builder()
                                .timestamp(System.currentTimeMillis())
                                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                               .error("DataIntegrityViolation")
+                               .error("Data Integrity Violation")
                                .message(e.getMessage())
                                .path(request.getRequestURI())
                                .method(request.getMethod())
