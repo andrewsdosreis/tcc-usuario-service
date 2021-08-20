@@ -30,11 +30,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.lutadeclasses.usuarioservice.entity.Usuario;
+import br.com.lutadeclasses.usuarioservice.exception.LoginEmailOuSenhaIncorretoException;
+import br.com.lutadeclasses.usuarioservice.exception.LoginUsuarioNaoEncontradoComEmailException;
 import br.com.lutadeclasses.usuarioservice.exception.UsuarioComEmailJaExisteException;
 import br.com.lutadeclasses.usuarioservice.exception.UsuarioComUsernameJaExisteException;
 import br.com.lutadeclasses.usuarioservice.exception.UsuarioNaoEncontradoException;
 import br.com.lutadeclasses.usuarioservice.model.RequestNovoUsuarioDto;
 import br.com.lutadeclasses.usuarioservice.model.ResponseUsuarioDto;
+import br.com.lutadeclasses.usuarioservice.model.ResponseUsuarioLogadoDto;
 import br.com.lutadeclasses.usuarioservice.repository.UsuarioRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -177,6 +180,47 @@ class UsuarioServiceTest {
         assertNotNull(exception);
     }
 
+    @Test
+    void test_login_ComSucesso() {
+        String email = "nomedeusuario@email.com";
+        String password = "senha";
+
+        when(repository.findFirstByEmail(email)).thenReturn(Optional.of(criarUsuario_OK()));
+
+        var expected = criarResponseUsuarioLogadoDto_OK();
+        var actual = service.login(email, password);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void test_login_UsuarioComEmailNaoEncontrado() {
+        String email = "nomedeusuario@email.com";
+        String password = "senha";
+
+        when(repository.findFirstByEmail(email)).thenReturn(Optional.ofNullable(null));
+
+        Exception exception = assertThrows(LoginUsuarioNaoEncontradoComEmailException.class, () -> {
+            service.login(email, password);
+        });
+
+        assertNotNull(exception);
+    }
+
+    @Test
+    void test_login_UsuarioComEmailOuSenhaInvalido() {
+        String email = "nomedeusuario@email.com";
+        String password = "senhaerrada";
+
+        when(repository.findFirstByEmail(email)).thenReturn(Optional.of(criarUsuario_OK()));
+
+        Exception exception = assertThrows(LoginEmailOuSenhaIncorretoException.class, () -> {
+            service.login(email, password);
+        });
+
+        assertNotNull(exception);        
+    }
+
     private ResponseUsuarioDto criarResponseUsuarioDto_OK() {
         return ResponseUsuarioDto.builder()
                                  .email("nomedeusuario@email.com")
@@ -217,6 +261,14 @@ class UsuarioServiceTest {
         return mapper.readValue(updateJson, JsonPatch.class);
     }
 
+    private ResponseUsuarioLogadoDto criarResponseUsuarioLogadoDto_OK() {
+        return ResponseUsuarioLogadoDto.builder()
+                                       .email("nomedeusuario@email.com")
+                                       .username("username")
+                                       .token("")
+                                       .build();
+    }
+
     private Usuario criarUsuario_OK() {
         return new Usuario(usuario -> {
             usuario.setId(1);
@@ -224,7 +276,7 @@ class UsuarioServiceTest {
             usuario.setNome("Nome");
             usuario.setSobrenome("sobrenome");
             usuario.setUsername("username");
-            usuario.setSenha("senha");
+            usuario.setSenha(encoder.encode("senha"));
         });
     }
 
