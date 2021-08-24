@@ -8,6 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import br.com.lutadeclasses.usuarioservice.model.RoleEnum;
+
 @Entity
 @Table(name = "usuario", schema = "luta-de-classe-db")
 public class Usuario {
@@ -31,6 +36,9 @@ public class Usuario {
     
     @Column(name = "senha", nullable = false)
     private String senha;
+
+    @Column(name = "role", nullable = false)
+    private String role;
 
     public Usuario() {
     }
@@ -87,45 +95,17 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Usuario id(Integer id) {
-        setId(id);
-        return this;
+    public String getRole() {
+        return this.role;
     }
 
-    public Usuario username(String username) {
-        setUsername(username);
-        return this;
-    }
-
-    public Usuario nome(String nome) {
-        setNome(nome);
-        return this;
-    }
-
-    public Usuario sobrenome(String sobrenome) {
-        setSobrenome(sobrenome);
-        return this;
-    }
-
-    public Usuario email(String email) {
-        setEmail(email);
-        return this;
-    }
-
-    public Usuario senha(String senha) {
-        setSenha(senha);
-        return this;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", username='" + getUsername() + "'" +
-            ", nome='" + getNome() + "'" +
-            ", sobrenome='" + getSobrenome() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", senha='" + getSenha() + "'" +
-            "}";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

@@ -21,6 +21,7 @@ import br.com.lutadeclasses.usuarioservice.exception.UsuarioNaoEncontradoExcepti
 import br.com.lutadeclasses.usuarioservice.model.RequestNovoUsuarioDto;
 import br.com.lutadeclasses.usuarioservice.model.ResponseUsuarioDto;
 import br.com.lutadeclasses.usuarioservice.model.ResponseUsuarioLogadoDto;
+import br.com.lutadeclasses.usuarioservice.model.RoleEnum;
 import br.com.lutadeclasses.usuarioservice.repository.UsuarioRepository;
 
 @Service
@@ -53,6 +54,7 @@ public class UsuarioService {
         validarDadosAntesDeInserirNovoUsuario(novoUsuarioDto);
         var usuario = mapper.convertValue(novoUsuarioDto, Usuario.class);
         usuario.setSenha(encoder.encode(novoUsuarioDto.getSenha()));
+        usuario.setRole(RoleEnum.PLAYER.toString());
         repository.save(usuario);
         return mapper.convertValue(usuario, ResponseUsuarioDto.class);
     }
