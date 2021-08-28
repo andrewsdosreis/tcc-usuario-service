@@ -11,8 +11,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import br.com.lutadeclasses.usuarioservice.model.RoleEnum;
-
 @Entity
 @Table(name = "usuario", schema = "luta-de-classe-db")
 public class Usuario {
