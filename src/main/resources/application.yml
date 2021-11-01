@@ -2,10 +2,10 @@ spring:
     application:
         name: usuario-service
     datasource:
-        url: jdbc:mysql://bf79b39611e322:74b06653@us-cdbr-east-04.cleardb.com/heroku_5606ef91a8d9308?reconnect=true
+        url: jdbc:${CLEARDB_DATABASE_URL}
         driverClassName: com.mysql.jdbc.Driver
-        password: 74b06653
-        username: bf79b39611e322
+        password: ${CLEARDB_DATABASE_PASSWORD}
+        username: ${CLEARDB_DATABASE_USERNAME}
         type: com.zaxxer.hikari.HikariDataSource
         hikari:
             maximum-pool-size: 3
