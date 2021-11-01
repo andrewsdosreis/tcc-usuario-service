@@ -4,11 +4,9 @@ spring:
     datasource:
         url: jdbc:${CLEARDB_DATABASE_URL}
         driverClassName: com.mysql.jdbc.Driver
-        password: ${CLEARDB_DATABASE_PASSWORD}
-        username: ${CLEARDB_DATABASE_USERNAME}
         type: com.zaxxer.hikari.HikariDataSource
         hikari:
-            maximum-pool-size: 3
+            maximum-pool-size: 2
             minimum-idle: 1
             connection-test-query: 'SELECT 1'
     jpa:
