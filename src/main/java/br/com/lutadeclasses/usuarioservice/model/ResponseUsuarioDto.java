@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ResponseUsuarioDto {
-    
+    private Integer usuarioId;
     private String username;
     private String nome;
     private String sobrenome;
@@ -27,5 +27,4 @@ public class ResponseUsuarioDto {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-    
 }

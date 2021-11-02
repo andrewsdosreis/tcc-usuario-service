@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ResponseUsuarioLogadoDto {
-    
     private String username;
     private String email;
     private String token;
@@ -23,6 +22,5 @@ public class ResponseUsuarioLogadoDto {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-    }
-    
+    }   
 }
