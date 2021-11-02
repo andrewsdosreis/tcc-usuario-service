@@ -223,6 +223,7 @@ class UsuarioServiceTest {
 
     private ResponseUsuarioDto criarResponseUsuarioDto_OK() {
         return ResponseUsuarioDto.builder()
+                                 .id(1)
                                  .email("nomedeusuario@email.com")
                                  .nome("Nome")
                                  .sobrenome("sobrenome")
@@ -242,6 +243,7 @@ class UsuarioServiceTest {
 
     private ResponseUsuarioDto criarResponseUsuarioDtoAtualizado_OK() {
         return ResponseUsuarioDto.builder()
+                                 .id(1)
                                  .email("emailatualizado@email.com")
                                  .nome("Nomeatualizado")
                                  .sobrenome("sobrenomeatualizado")

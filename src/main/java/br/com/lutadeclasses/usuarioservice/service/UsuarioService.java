@@ -55,7 +55,7 @@ public class UsuarioService {
         var usuario = mapper.convertValue(novoUsuarioDto, Usuario.class);
         usuario.setSenha(encoder.encode(novoUsuarioDto.getSenha()));
         usuario.setRole(RoleEnum.PLAYER.toString());
-        repository.save(usuario);
+        usuario = repository.save(usuario);
         return mapper.convertValue(usuario, ResponseUsuarioDto.class);
     }
 
