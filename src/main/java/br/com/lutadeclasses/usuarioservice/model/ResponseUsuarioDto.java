@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ResponseUsuarioDto {
-    private Integer usuarioId;
+    private Integer id;
     private String username;
     private String nome;
     private String sobrenome;
