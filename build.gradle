@@ -58,7 +58,7 @@ test {
 }
 
 jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
+    dependsOn test
 	
 	reports {
 			xml.required = true
@@ -69,10 +69,10 @@ jacocoTestReport {
 	afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it,
-                    exclude: ['com/lutadeclasses/usuarioservice/config/**',
-                              'com/lutadeclasses/usuarioservice/entity/**',
-                              'com/lutadeclasses/usuarioservice/model/**',
-							  'com/lutadeclasses/usuarioservice/exception/handler/**'
+                    exclude: ['**/lutadeclasses/usuarioservice/config/**',
+                              '**/lutadeclasses/usuarioservice/entity/**',
+                              '**/lutadeclasses/usuarioservice/model/**',
+							  '**/lutadeclasses/usuarioservice/exception/handler/**'
 							 ])
         }))
     }
