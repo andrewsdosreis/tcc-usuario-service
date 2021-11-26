@@ -69,10 +69,11 @@ jacocoTestReport {
 	afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it,
-                    exclude: ['**/lutadeclasses/usuarioservice/config/**',
-                              '**/lutadeclasses/usuarioservice/entity/**',
-                              '**/lutadeclasses/usuarioservice/model/**',
-							  '**/lutadeclasses/usuarioservice/exception/handler/**'
+                    exclude: ['**/lutadeclasses/usuarioservice/config/*',
+                              '**/lutadeclasses/usuarioservice/entity/*',
+                              '**/lutadeclasses/usuarioservice/model/*',
+							  '**/lutadeclasses/usuarioservice/exception/handler/*',
+							  '**/lutadeclasses/usuarioservice/UsuarioServiceApplication.class'
 							 ])
         }))
     }
